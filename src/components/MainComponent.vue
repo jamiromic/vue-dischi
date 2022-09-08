@@ -1,9 +1,8 @@
 <template>
     <main>
-        <div class="card_wrapper">
-            
-                <div v-for="(item,i) in listAlbums" :key="i" class="col">
-                    <CardComponent :info="item" />
+        <div class="card_wrapper">       
+                <div v-for="(item,i) in filteredGenre" :key="i" class="col">
+                    <CardComponent :info="item"/>
                 
             </div>
         </div>
@@ -17,10 +16,35 @@
 
     export default {
         name: 'MainComponent',
+        props: {
+            selectedGenre: String,
+                
+        },
+
         data() {
             return {
-                listAlbums: [],
+                listAlbums: []
             };
+        },
+        computed: {
+            filteredGenre() {
+
+                return this.listAlbums.filter((element) => {
+
+                    const genre = element.genre
+                    const inputGenre = this.selectedGenre
+
+                    if (genre === inputGenre || inputGenre === 'All'){
+
+                        return true
+                        
+                    }
+
+                    return false
+
+                })
+            }
+               
         },
 
         components: {
@@ -30,7 +54,7 @@
             axios
                 .get('https://flynn.boolean.careers/exercises/api/array/music')
                 .then((res) => {
-                    console.log(res.data.response);
+                    
                     this.listAlbums = res.data.response;
                 })
                 .catch((err) => {
@@ -39,6 +63,7 @@
         }
         
     }
+
 </script>
 
 <style lang="scss" scoped>

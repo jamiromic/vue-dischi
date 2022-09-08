@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <HeaderComponent/>
-    <MainComponent/>
+    <HeaderComponent @selectedGenre="selectedOption"/>
+    <MainComponent :selectedGenre="genreMusical"/>
   </div>
 </template>
 
@@ -12,9 +12,21 @@ import MainComponent from './components/MainComponent.vue';
 
 export default {
   name: 'App',
+  data() {
+    return {
+      genreMusical: 'All'
+    }
+  },
   components: {
     HeaderComponent,
     MainComponent
+},
+methods: {
+  selectedOption(data) {
+    this.genreMusical = data
+    
+  }
+
 }
 }
 </script>
